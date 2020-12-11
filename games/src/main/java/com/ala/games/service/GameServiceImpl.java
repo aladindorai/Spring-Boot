@@ -3,6 +3,8 @@ package com.ala.games.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ala.games.entities.Game;
@@ -10,6 +12,8 @@ import com.ala.games.repos.GameRepository;
 
 @Service
 public class GameServiceImpl implements GameService{
+	
+	
 	@Autowired
 	GameRepository gameRepository;
 	@Override
@@ -36,6 +40,11 @@ public class GameServiceImpl implements GameService{
 	public List<Game> getAllGames() {
 	return gameRepository.findAll();
 	}
+	@Override
+	public Page<Game> getAllGamesParPage(int page, int size) {
+	return gameRepository.findAll(PageRequest.of(page, size));
+	}
+
 }
 	
 

@@ -5,22 +5,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<link rel="stylesheet" type="text/css"
+href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<c:url value="/css/main.css" var="jstlCss" />
+<link href="${jstlCss}" rel="stylesheet" />
+<script type="text/javascript"
+src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
 <title>Liste Games</title>
 </head>
 <body>
- <h1 >
+<div class="container mt-5">
+<div class="card">
+ <div class="card-header">
  Liste des Games
- </h1>
- <table>
+ </div>
+ <div class="card-body">
+
+ <table class="table table-striped">
  <tr>
- <th>ID</th><th>Nom Game</th><th>Prix</th><th>Date
+<th>ID</th><th>Nom Game</th><th>Prix</th><th>Date
 Création</th><th>Suppression<th>Edition</th>
  </tr>
  <c:forEach items="${games}" var="g">
  <tr>
- <td>${g.idGame }</td>
+ <td>${g.idGame}</td>
  <td>${g.nomGame }</td>
  <td>${g.prixGame }</td>
  <td><fmt:formatDate pattern="dd/MM/yyyy"
@@ -31,5 +41,8 @@ href="supprimerGame?id=${g.idGame }">Supprimer</a></td>
  </tr>
  </c:forEach>
  </table>
+ </div>
+</div>
+</div>
 </body>
 </html>
