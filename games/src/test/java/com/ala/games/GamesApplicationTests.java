@@ -6,15 +6,20 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import com.ala.games.entities.Game;
 import com.ala.games.repos.GameRepository;
+import com.ala.games.service.GameService;
 
 @SpringBootTest
 class GamesApplicationTests {
+	
 
 	@Autowired
 	private GameRepository gameRepository;
+	private GameService gameService;
+	
 	@Test
 	public void testCreateGame() {
 	Game game = new Game("GTA V",149.999,new Date());
@@ -49,5 +54,16 @@ class GamesApplicationTests {
 		}
 		}
 
+		
+		@Test
+		public void testFindByNomGameContains()
+		{
+		Page<Game> gms = gameService.getAllGamesParPage(0,2);
+		System.out.println(gms.getSize());
+		System.out.println(gms.getTotalElements());
+		System.out.println(gms.getTotalPages());
+		gms.getContent().forEach(p -> {System.out.println(p.toString());
+		 });
+		}
 
 }

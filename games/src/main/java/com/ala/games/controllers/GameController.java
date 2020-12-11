@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,20 +44,35 @@ public class GameController {
 	
 	
 	@RequestMapping("/ListeGames")
-	public String listeGames(ModelMap modelMap)
+	public String listeGames(ModelMap modelMap,
+	@RequestParam (name="page",defaultValue = "0") int page,
+	@RequestParam (name="size", defaultValue = "2") int size)
 	{
-	List<Game> gms = gameService.getAllGames();
+	Page<Game> gms = gameService.getAllGamesParPage(page, size);
 	modelMap.addAttribute("games", gms);
+	 modelMap.addAttribute("pages", new int[gms.getTotalPages()]);
+	modelMap.addAttribute("currentPage", page);
 	return "listeGames";
+
 	}
+	
+	
+	
+	
 	@RequestMapping("/supprimerGame")
 	public String supprimerGame(@RequestParam("id") Long id,
-	 ModelMap modelMap)
+	 ModelMap modelMap,@RequestParam (name="page",defaultValue = "0") int page,
+	 @RequestParam (name="size", defaultValue = "2") int size)
+
 	{
-	gameService.deleteGameById(id);
-	List<Game> gms = gameService.getAllGames();
-	modelMap.addAttribute("games", gms);
-	return "listeGames";
+		gameService.deleteGameById(id);
+		Page<Game> gms = gameService.getAllGamesParPage(page,
+		size);
+		modelMap.addAttribute("games", gms);
+		modelMap.addAttribute("pages", new int[gms.getTotalPages()]);
+		modelMap.addAttribute("currentPage", page);
+		modelMap.addAttribute("size", size);
+		return "listeGames";
 	}
 
 	
